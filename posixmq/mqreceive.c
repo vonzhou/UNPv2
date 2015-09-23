@@ -1,4 +1,4 @@
-#include	"unpipc.h"
+#include	"../unpipc.h"
 
 int
 main(int argc, char **argv)
@@ -6,7 +6,7 @@ main(int argc, char **argv)
 	int		c, flags;
 	mqd_t	mqd;
 	ssize_t	n;
-	uint_t	prio;
+	uint32_t	prio;
 	void	*buff;
 	struct mq_attr	attr;
 
@@ -22,7 +22,7 @@ main(int argc, char **argv)
 		err_quit("usage: mqreceive [ -n ] <name>");
 
 	mqd = Mq_open(argv[optind], flags);
-	Mq_getattr(mqd, &attr);
+	Mq_getattr(mqd, &attr);  // get the max msg size for alloc memory..
 
 	buff = Malloc(attr.mq_msgsize);
 

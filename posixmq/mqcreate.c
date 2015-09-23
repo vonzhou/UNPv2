@@ -1,4 +1,4 @@
-#include	"unpipc.h"
+#include	"../unpipc.h"
 
 struct mq_attr	attr;	/* mq_maxmsg and mq_msgsize both init to 0 */
 

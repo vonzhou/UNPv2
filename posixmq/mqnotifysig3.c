@@ -1,4 +1,4 @@
-#include	"unpipc.h"
+#include	"../unpipc.h"
 
 volatile sig_atomic_t	mqflag;		/* set nonzero by signal handler */
 static void	sig_usr1(int);
@@ -16,7 +16,7 @@ main(int argc, char **argv)
 	if (argc != 2)
 		err_quit("usage: mqnotifysig3 <name>");
 
-		/* 4open queue, get attributes, allocate read buffer */
+	/* open queue, get attributes, allocate read buffer */
 	mqd = Mq_open(argv[1], O_RDONLY | O_NONBLOCK);
 	Mq_getattr(mqd, &attr);
 	buff = Malloc(attr.mq_msgsize);
@@ -25,7 +25,7 @@ main(int argc, char **argv)
 	Sigemptyset(&newmask);
 	Sigemptyset(&oldmask);
 	Sigaddset(&newmask, SIGUSR1);
-		/* 4establish signal handler, enable notification */
+	/* establish signal handler, enable notification */
 	Signal(SIGUSR1, sig_usr1);
 	sigev.sigev_notify = SIGEV_SIGNAL;
 	sigev.sigev_signo = SIGUSR1;
@@ -38,7 +38,7 @@ main(int argc, char **argv)
 		mqflag = 0;		/* reset flag */
 
 		Mq_notify(mqd, &sigev);			/* reregister first */
-		while ( (n = mq_receive(mqd, buff, attr.mq_msgsize, NULL)) >= 0) {
+		while ( (n = mq_receive(mqd, buff, attr.mq_msgsize, NULL)) >= 0) {          // n.b.
 			printf("read %ld bytes\n", (long) n);
 		}
 		if (errno != EAGAIN)

@@ -1,8 +1,7 @@
-#include	"unpipc.h"
+#include	"../unpipc.h"
 
 int		pipefd[2];
 static void	sig_usr1(int);
-/* $$.bp$$ */
 int
 main(int argc, char **argv)
 {
@@ -18,14 +17,14 @@ main(int argc, char **argv)
 	if (argc != 2)
 		err_quit("usage: mqnotifysig5 <name>");
 
-		/* 4open queue, get attributes, allocate read buffer */
+	/* open queue, get attributes, allocate read buffer */
 	mqd = Mq_open(argv[1], O_RDONLY | O_NONBLOCK);
 	Mq_getattr(mqd, &attr);
 	buff = Malloc(attr.mq_msgsize);
 
 	Pipe(pipefd);
 
-		/* 4establish signal handler, enable notification */
+	/* establish signal handler, enable notification */
 	Signal(SIGUSR1, sig_usr1);
 	sigev.sigev_notify = SIGEV_SIGNAL;
 	sigev.sigev_signo = SIGUSR1;

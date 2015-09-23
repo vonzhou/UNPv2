@@ -1,4 +1,4 @@
-#include	"unpipc.h"
+#include	"../unpipc.h"
 
 int
 main(int argc, char **argv)
@@ -6,7 +6,7 @@ main(int argc, char **argv)
 	mqd_t	mqd;
 	void	*ptr;
 	size_t	len;
-	uint_t	prio;
+	uint32_t	prio;
 
 	if (argc != 4)
 		err_quit("usage: mqsend <name> <#bytes> <priority>");

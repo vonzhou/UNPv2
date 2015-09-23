@@ -19,6 +19,8 @@
 #include	<sys/wait.h>
 #include	<stdarg.h>		/* for variable arg lists */
 
+#include	<stdint.h>  // uint32_t 
+
 
 // ftok()
 #include	<sys/ipc.h>		/* System V IPC */
@@ -313,9 +315,9 @@ void	 Sigprocmask(int, const sigset_t *, sigset_t *);
 #ifdef	HAVE_SIGINFO_T_STRUCT
 void	 Sigqueue(pid_t, int, const union sigval);
 #endif
-#ifdef	HAVE_SIGWAIT
-void	 Sigwait(const sigset_t *, int *);
-#endif
+
+void	 Sigwait(const sigset_t *, int *); // linux has
+
 void	 Stat(const char *, struct stat *);
 char	*Strdup(const char *);
 long	 Sysconf(int);
@@ -326,8 +328,7 @@ pid_t	 Wait(int *);
 pid_t	 Waitpid(pid_t, int *, int);
 void	 Write(int, void *, size_t);
 
-#ifdef	HAVE_MQUEUE_H
-			/* 4Posix message queues */
+/* Posix message queues */
 mqd_t	 Mq_open(const char *, int, ...);
 void	 Mq_close(mqd_t);
 void	 Mq_unlink(const char *pathname);
@@ -336,7 +337,6 @@ ssize_t	 Mq_receive(mqd_t, char *, size_t, unsigned int *);
 void	 Mq_notify(mqd_t, const struct sigevent *);
 void	 Mq_getattr(mqd_t, struct mq_attr *);
 void	 Mq_setattr(mqd_t, const struct mq_attr *, struct mq_attr *);
-#endif	/* HAVE_MQUEUE_H */
 
 /* Posix semaphores */
 sem_t	*Sem_open(const char *, int, ...);

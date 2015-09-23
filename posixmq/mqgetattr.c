@@ -1,4 +1,4 @@
-#include	"unpipc.h"
+#include	"../unpipc.h"
 
 int
 main(int argc, char **argv)
@@ -17,5 +17,6 @@ main(int argc, char **argv)
 		   attr.mq_maxmsg, attr.mq_msgsize, attr.mq_curmsgs);
 
 	Mq_close(mqd);
+	
 	exit(0);
 }

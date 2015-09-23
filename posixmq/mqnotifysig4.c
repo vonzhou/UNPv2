@@ -1,4 +1,4 @@
-#include	"unpipc.h"
+#include	"../unpipc.h"
 
 int
 main(int argc, char **argv)
@@ -14,7 +14,7 @@ main(int argc, char **argv)
 	if (argc != 2)
 		err_quit("usage: mqnotifysig4 <name>");
 
-		/* 4open queue, get attributes, allocate read buffer */
+	/* open queue, get attributes, allocate read buffer */
 	mqd = Mq_open(argv[1], O_RDONLY | O_NONBLOCK);
 	Mq_getattr(mqd, &attr);
 	buff = Malloc(attr.mq_msgsize);
@@ -23,7 +23,7 @@ main(int argc, char **argv)
 	Sigaddset(&newmask, SIGUSR1);
 	Sigprocmask(SIG_BLOCK, &newmask, NULL);		/* block SIGUSR1 */
 
-		/* 4establish signal handler, enable notification */
+	/* establish signal handler, enable notification */
 	sigev.sigev_notify = SIGEV_SIGNAL;
 	sigev.sigev_signo = SIGUSR1;
 	Mq_notify(mqd, &sigev);

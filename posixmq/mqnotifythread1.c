@@ -1,4 +1,4 @@
-#include	"unpipc.h"
+#include	"../unpipc.h"
 
 mqd_t	mqd;
 struct mq_attr	attr;
