@@ -1,4 +1,4 @@
-/* include mqueueh */
+
 typedef struct mymq_info	*mymqd_t;		/* opaque datatype */
 
 struct mymq_attr {
@@ -8,7 +8,7 @@ struct mymq_attr {
   long	mq_curmsgs;		/* number of messages currently on queue */
 };
 
-	/* 4one mymq_hdr{} per queue, at beginning of mapped file */
+	/* one mymq_hdr{} per queue, at beginning of mapped file */
 struct mymq_hdr {
   struct mymq_attr	mqh_attr;	/* the queue's attributes */
   long				mqh_head;	/* index of first message */
@@ -20,7 +20,7 @@ struct mymq_hdr {
   pthread_cond_t	mqh_wait;	/* and condition variable */
 };
 
-	/* 4one mymsg_hdr{} at the front of each message in the mapped file */
+	/* one mymsg_hdr{} at the front of each message in the mapped file */
 struct mymsg_hdr {
   long	msg_next;				/* index of next on linked list */
 								/* 4msg_next must be first member in struct */
@@ -28,7 +28,7 @@ struct mymsg_hdr {
   unsigned int	msg_prio;		/* priority */
 };
 
-	/* 4one mymq_info{} malloc'ed per process per mq_open() */
+	/* one mymq_info{} malloc'ed per process per mq_open() */
 struct mymq_info {
   struct mymq_hdr	*mqi_hdr;	/* start of mmap'ed region */
   long	mqi_magic;				/* magic number if open */
@@ -36,11 +36,11 @@ struct mymq_info {
 };
 #define	MQI_MAGIC	0x98765432
 
-	/* 4size of message in file is rounded up for alignment */
+	/* size of message in file is rounded up for alignment */
 #define	MSGSIZE(i)	((((i) + sizeof(long)-1) / sizeof(long)) * sizeof(long))
-/* end mqueueh */
 
-	/* 4our functions */
+/* our functions */
+
 int		 mymq_close(mymqd_t);
 int		 mymq_getattr(mymqd_t, struct mymq_attr *);
 int		 mymq_notify(mymqd_t, const struct sigevent *);
@@ -50,7 +50,7 @@ int		 mymq_send(mymqd_t, const char *, size_t, unsigned int);
 int		 mymq_setattr(mymqd_t, const struct mymq_attr *, struct mymq_attr *);
 int		 mymq_unlink(const char *name);
 
-	/* 4and the corresponding wrapper functions */
+/* and the corresponding wrapper functions */
 void	 Mymq_close(mymqd_t);
 void	 Mymq_getattr(mymqd_t, struct mymq_attr *);
 void	 Mymq_notify(mymqd_t, const struct sigevent *);

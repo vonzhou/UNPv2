@@ -1,5 +1,4 @@
-/* include mq_open1 */
-#include	"unpipc.h"
+#include	"../unpipc.h"
 #include	"mqueue.h"
 
 #include	<stdarg.h>

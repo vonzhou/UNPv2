@@ -14,7 +14,7 @@ main(int argc, char **argv)
 	nloop = atoi(argv[2]);
 	nusec = atoi(argv[3]);
 
-		/* 4open and map shared memory that server must create */
+	/* open and map shared memory that server must create */
 	fd = Shm_open(Px_ipc_name(argv[1]), O_RDWR, FILE_MODE);
 	ptr = Mmap(NULL, sizeof(struct shmstruct), PROT_READ | PROT_WRITE,
 			   MAP_SHARED, fd, 0);
@@ -26,7 +26,7 @@ main(int argc, char **argv)
 		snprintf(mesg, MESGSIZE, "pid %ld: message %d", (long) pid, i);
 
 		if (sem_trywait(&ptr->nempty) == -1) {
-			if (errno == EAGAIN) {
+			if (errno == EAGAIN) {  // no empty, overflow 
 				Sem_wait(&ptr->noverflowmutex);
 				ptr->noverflow++;
 				Sem_post(&ptr->noverflowmutex);
